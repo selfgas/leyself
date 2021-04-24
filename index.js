@@ -1,10 +1,4 @@
-/*
-* Example Script WhatsApp-Bot
-* With API leyscoders-api.herokuapp.com
-* Di Script ini tidak full api diatas
-* Hanya beberapa yang dimasukan ke script ini
-* Thank you to mhankbarbar for providing the base
-*/
+
 const {
     WAConnection,
     MessageType,
@@ -52,10 +46,10 @@ client.on('qr', () => {
 		console.log(color('[','white'), color('!','red'), color(']','white'), color('Silahkan Scan Qr Nya!'))
 	})
 	client.on('credentials-updated', () => {
-		fs.writeFileSync('./leys-selfbot.json', JSON.stringify(client.base64EncodedAuthInfo(), null, '\t'))
+		fs.writeFileSync('./session.json', JSON.stringify(client.base64EncodedAuthInfo(), null, '\t'))
 		info('2', 'Sedang Menyambungkan...')
 	})
-	fs.existsSync('./leys-selfbot.json') && client.loadAuthInfo('./leys-selfbot.json')
+	fs.existsSync('./session.json') && client.loadAuthInfo('./session.json')
 	client.on('connecting', () => {
 		start('2', 'Connecting')
 	})
@@ -134,7 +128,7 @@ client.on('qr', () => {
 
 			mess = {
 				wait: 'Tunggu sedang diproses...',
-				success: '_Self-Bot_\n- - - - - - - - - - - - - -\nSince 2020\nAPI : leyscoders-api.herokuapp.com',
+				success: '_Self-Bot_\n- - - - - - - - - - - - - -\nSince 2021\nMangtap Kan',
 				error: {
 					stick: 'Gagal, terjadi kesalahan saat mengkonversi gambar ke sticker',
 					Iv: 'Link tidak valid'
@@ -196,7 +190,7 @@ client.on('qr', () => {
 			if (authorname != undefined) { } else { authorname = groupName }	
 			
 			function addMetadata(packname, author) {
-				if (!packname) packname = 'WABot'; if (!author) author = 'Bot';	
+				if (!packname) packname = 'Created By'; if (!author) author = 'Adul Alhy';	
 				author = author.replace(/[^a-zA-Z0-9]/g, '');	
 				let name = `${author}_${packname}`
 				if (fs.existsSync(`./src/stickers/${name}.exif`)) return `./src/stickers/${name}.exif`
@@ -239,7 +233,7 @@ client.on('qr', () => {
 				case 'help':
 				case 'menu':
 					/** get apikey on https://leyscoders-api.herokuapp.com/api */
-					teks =`「 SELF-BOT LeysCoders-Api 」
+					teks =`「 SELF-BOT NEW 」
 
 • Lib: Baileys
 • Prefix: 「 ${prefix} 」
@@ -1054,6 +1048,7 @@ _Powered by nodejs 14.x.x_`
 						reply('Foto aja mas')
 					}
 					break
+				case 's':
 				case 'stiker':
 				case 'sticker':
 					if ((isMedia && !mek.message.videoMessage || isQuotedImage) && args.length == 0) {
@@ -1166,6 +1161,7 @@ _Powered by nodejs 14.x.x_`
 					}
 					break
 				case 'gtts':
+				case 'tts':
 					if (args.length < 1) return client.sendMessage(from, 'Kode bahasanya mana om?', text, {quoted: mek})
 					const gtts = require('./lib/gtts')(args[0])
 					if (args.length < 2) return client.sendMessage(from, 'Textnya mana om', text, {quoted: mek})
@@ -1238,7 +1234,6 @@ _Powered by nodejs 14.x.x_`
 					reply('Sukses delete all chat :)')
 					break
 				case 'bc':
-					if (!isOwner) return reply('Kamu siapa?')
 					if (args.length < 1) return reply('.......')
 					anu = await client.chats.all()
 					if (isMedia && !mek.message.videoMessage || isQuotedImage) {
@@ -1308,7 +1303,6 @@ _Powered by nodejs 14.x.x_`
 				case 'kick':
 					if (!isGroup) return reply(mess.only.group)
 					if (!isGroupAdmins) return reply(mess.only.admin)
-					if (!isBotGroupAdmins) return reply(mess.only.Badmin)
 					if (mek.message.extendedTextMessage === undefined || mek.message.extendedTextMessage === null) return reply('Tag target yang ingin di tendang!')
 					mentioned = mek.message.extendedTextMessage.contextInfo.mentionedJid
 					if (mentioned.length > 1) {
@@ -1342,7 +1336,7 @@ _Powered by nodejs 14.x.x_`
                     break
                 case 'leave':
                     if (!isGroup) return reply(mess.only.group)
-                    if (isGroupAdmins || isOwner) {
+                    if (isOwner) {
                     	client.groupLeave(from)
                     } else {
                         reply(mess.only.admin)
